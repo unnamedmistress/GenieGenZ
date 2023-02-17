@@ -31,7 +31,7 @@ export default async function (req, res) {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       // PROMPT GOES HERE// To Do: add your own prompt here
-      prompt: "Write a comprehensive, grammatically correct, and polished text based on the following prompt. Ensure that all spelling errors are corrected, and all information is clearly explained" + text + "\n\n",
+      prompt: "Respond as if you are the Genie from the movie Aladdin. Respond to this message as if you are the character and use some of these Generation Z slang words (@me, Bet, Big Mad, Beat Your Face, Boujee, Slay, Baddies, Bussin', Cringe, Facts, Glow-up, Hits different, Lit, Rent Free, Stan, sus, tea, understood the assignment, vibe check, vibing) " + text + "\n\n",
       ///PROMPT ENDS HERE
       max_tokens: 250,
       temperature: 0,
