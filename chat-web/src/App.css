@@ -1,31 +1,49 @@
 body {
   background-color: #343a40;
   color: #fff;
+  font-size: 10px;
+}
+#typing {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 2%;
+  z-index: 5;
 }
 #chatbox {
-  height: 500px;
+  max-height: 500px;
   overflow-y: scroll;
   border: 1px solid;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; 
+  justify-content: flex-end;
+  font-size: 12px;
 }
-.btn{
-  display:flex;
+
+#chatbox.my-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 500px;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+.btn {
+  display: flex;
   width: 100%;
 }
-.k-avatar{
+.k-avatar {
   width: 50px;
   height: 50px;
 }
 .message-input-container {
   display: flex;
   width: 100%;
-  border-radius: 5%; 
-   padding: 2%;
+  border-radius: 5%;
+  padding: 2%;
 }
-.k-input{
+.k-input {
   display: flex;
   align-content: flex-end;
   width: 100%;
@@ -33,19 +51,23 @@ body {
 header {
   background-color: #343a40;
   color: #fff;
-  padding: 20px;
+  padding: 10px;
   border-bottom: 1px solid #ccc;
   text-align: center;
   height: 10%;
 }
 #root {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 1% auto;
   margin-top: 50px;
-  padding: 2%; 
+  padding: 1%;
   background-color: #ccc;
   color: blue;
   font-family: cursive;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
 }
 .chat-message {
   background-color: #fff;
@@ -63,9 +85,8 @@ header {
 }
 .App {
   text-align: center;
-  
 }
-.k-bubble{
+.k-bubble {
   display: flex;
   justify-content: right;
   align-items: center;
@@ -85,7 +106,7 @@ header {
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,7 +127,8 @@ header {
     transform: rotate(360deg);
   }
 }
-.k-button-icon, .k-icon {
+.k-button-icon,
+.k-icon {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -121,4 +143,17 @@ header {
 
 .k-button-send i {
   padding: 2%;
+}
+.k-widget, .k-chat{
+  height:500px;
+  max-width: 100%;
+  box-sizing: border-box;
+max-height: 500px;
+}
+.input-group{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1%;
+  z-index: 5;
 }

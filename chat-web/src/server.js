@@ -1,18 +1,19 @@
 const express = require('express');
 const helmet = require('helmet');
 const app = express();
+const path = require('path');
 const { createOpenAIConfig, sendToOpenAI } = require('./openai');
 const dotenv = require('dotenv');
-dotenv.config();
+
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 app.use(express.json());
 app.use(helmet());
 
 const port = process.env.PORT || 3000;
-console.log(`OpenAI API key: ${process.env.OPENAI_API_KEY}`);
 
 const openaiConfig = createOpenAIConfig({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY
 });
 
 

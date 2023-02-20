@@ -1,6 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai';
-const apiKey = process.env.OPENAI_API_KEY;
-console.log(apiKey);
+const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 const createOpenAIConfig = new Configuration({
   organization: "org-CjIl4vnLKCaPqr6WGtIhrpQA",
   apiKey: apiKey,
@@ -12,14 +11,14 @@ function sendToOpenAI(text, apiKey) {
     return new Promise((resolve, reject) => {
       const headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer`+ process.env.OPENAI_API_KEY,
+        'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
       };
       const requestBody = {
         'model': 'text-davinci-003',
-        'prompt': process.env.SECRET + text,
+        'prompt': process.env.REACT_APP_SECRET + " " + text,
         'max_tokens': 2500,
         'temperature': 0,
-      }; console.log(requestBody);
+      }; 
       const requestOptions = {
         'headers': headers,
         'method': 'POST',
@@ -28,7 +27,6 @@ function sendToOpenAI(text, apiKey) {
       fetch('https://api.openai.com/v1/completions', requestOptions)
         .then(response => response.json())
         .then(data => {
-          console.log('OpenAI API response:', data);
           if (data.choices && data.choices.length > 0) {
             resolve(data.choices[0].text);
           } else {
