@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import { Chat } from '@progress/kendo-react-conversational-ui';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

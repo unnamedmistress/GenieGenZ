@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Chat } from "@progress/kendo-react-conversational-ui";
+import { Chat } from '@progress/kendo-react-conversational-ui';
 import "./App.css";
 import { sendToOpenAI } from "./openai.js";
 
