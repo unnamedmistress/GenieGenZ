@@ -50,22 +50,11 @@ const App = () => {
         borderRadius: "5px",
         display: "flex",
         flexDirection: "column",
-        overflow: "scroll",
+
         maxHeight: "400px",
       }}
     >
-      {isLoading && (
-        <div
-          id="typing"
-          style={{
-            color: "#000",
-            fontSize: "1.5em",
-            marginRight: "0.5em",
-          }}
-        >
-          Typing...
-        </div>
-      )}
+     
       <Chat
         user={user}
         messages={messages}
@@ -108,8 +97,7 @@ const App = () => {
                   fontSize: "1.5em",
                   marginRight: "0.5em",
                 }}
-              >
-                Typing...
+              > 
               </div>
             )}
             {props.messages.map((message, index) => (
@@ -147,6 +135,18 @@ const App = () => {
                 flex: 1,
               }}
             />
+            {isLoading && (
+              <div
+                id="typing"
+                style={{
+                  color: "#000",
+                  fontSize: "1.5em",
+                  marginRight: "0.5em",
+                }}
+              >
+                Typing...
+              </div>
+            )}
             <button
               onClick={props.onSend}
               style={{
@@ -160,6 +160,11 @@ const App = () => {
             >
               <i className="bi bi-arrow-right" style={{ paddingRight: "5px" }}></i>
             </button>
+            {isLoading && (
+  <div id="typing" style="color: #000; font-size: 1.5em; margin-right: 0.5em;">
+    Typing...
+  </div>
+)}
           </div>
         )}
       />

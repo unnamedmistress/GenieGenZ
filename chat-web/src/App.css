@@ -11,8 +11,7 @@ body {
   z-index: 5;
 }
 #chatbox {
-  max-height: 500px;
-  overflow-y: scroll;
+  max-height: 600px;
   border: 1px solid;
   border-radius: 5px;
   display: flex;
@@ -25,9 +24,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 500px;
-  max-height: 500px;
-  overflow-y: scroll;
+  height: 100%;
+  max-height: 100%;
+  
 }
 .btn {
   display: flex;
@@ -57,7 +56,8 @@ header {
   height: 10%;
 }
 #root {
-  max-width: 600px;
+  max-width: 400px;
+  max-height: 600px;
   margin: 1% auto;
   margin-top: 50px;
   padding: 1%;
@@ -67,6 +67,7 @@ header {
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-y: scroll;
 
 }
 .chat-message {
@@ -148,7 +149,7 @@ header {
   height:500px;
   max-width: 100%;
   box-sizing: border-box;
-max-height: 500px;
+max-height: 400px;
 }
 .input-group{
   display: flex;
@@ -156,4 +157,10 @@ max-height: 500px;
   align-items: center;
   padding: 1%;
   z-index: 5;
+}
+
+@media (max-width: 480px) {
+  #chatbox {
+    width: 100%;
+  }
 }
