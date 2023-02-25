@@ -164,3 +164,11 @@ max-height: 400px;
     width: 100%;
   }
 }
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spinner 1s linear infinite;
+}

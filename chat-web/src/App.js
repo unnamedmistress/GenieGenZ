@@ -24,7 +24,7 @@ const App = () => {
     const message = event.message;
     setMessages([...messages, message, { author: bot, typing: true }]);
     setIsLoading(true);
-  
+
     if (message.author === user) {
       sendToOpenAI(message.text).then(response => {
         setMessages(messages => {
@@ -36,7 +36,7 @@ const App = () => {
           });
           setIsLoading(false);
           return updatedMessages;
-        });
+        });  console.log(isLoading)
       });
     }
   };
@@ -50,11 +50,9 @@ const App = () => {
         borderRadius: "5px",
         display: "flex",
         flexDirection: "column",
-
         maxHeight: "400px",
       }}
     >
-     
       <Chat
         user={user}
         messages={messages}
@@ -89,17 +87,6 @@ const App = () => {
         }
         messageList={(props) => (
           <div style={{ flex: 1 }}>
-            {isLoading && (
-              <div
-                id="typing"
-                style={{
-                  color: "#000",
-                  fontSize: "1.5em",
-                  marginRight: "0.5em",
-                }}
-              > 
-              </div>
-            )}
             {props.messages.map((message, index) => (
               <div
                 key={index}
@@ -142,6 +129,7 @@ const App = () => {
                   color: "#000",
                   fontSize: "1.5em",
                   marginRight: "0.5em",
+                  zIndex: "9",
                 }}
               >
                 Typing...
@@ -149,6 +137,7 @@ const App = () => {
             )}
             <button
               onClick={props.onSend}
+              className={isLoading ? "spinner" : ""}
               style={{
                 backgroundColor: "#007bff",
                 color: "#fff",
@@ -160,11 +149,6 @@ const App = () => {
             >
               <i className="bi bi-arrow-right" style={{ paddingRight: "5px" }}></i>
             </button>
-            {isLoading && (
-  <div id="typing" style="color: #000; font-size: 1.5em; margin-right: 0.5em;">
-    Typing...
-  </div>
-)}
           </div>
         )}
       />
