@@ -1,3 +1,6 @@
+html{
+  background-color: #343a40;
+}
 body {
   background-color: #343a40;
   color: #fff;
@@ -63,7 +66,7 @@ header {
   padding: 1%;
   background-color: #ccc;
   color: blue;
-  font-family: cursive;
+  font-family: "Roboto", sans-serif;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -93,6 +96,8 @@ header {
   align-items: center;
   height: 100%;
   padding: 2%;
+  background-color: #007bff;
+  border-radius: 5%;
 }
 .App-logo {
   height: 40vmin;
