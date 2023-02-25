@@ -6,31 +6,19 @@ body {
   color: #fff;
   font-size: 10px;
 }
-#typing {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 2%;
-  z-index: 5;
+.input-group{
+  background-color: #343a40;
 }
-#chatbox {
-  max-height: 600px;
-  border: 1px solid;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  font-size: 12px;
-}
-
+/* 
 #chatbox.my-3 {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 100%;
-  max-height: 100%;
+  /* height: 100%;
+  max-height: 100%; */
+  /* font-size: 12px; */
   
-}
+
 .btn {
   display: flex;
   width: 100%;
@@ -39,15 +27,9 @@ body {
   width: 50px;
   height: 50px;
 }
-.message-input-container {
-  display: flex;
-  width: 100%;
-  border-radius: 5%;
-  padding: 2%;
-}
 .k-input {
   display: flex;
-  align-content: flex-end;
+  font-size: 14px;
   width: 100%;
 }
 header {
@@ -62,42 +44,33 @@ header {
   max-width: 400px;
   max-height: 600px;
   margin: 1% auto;
-  margin-top: 50px;
   padding: 1%;
-  background-color: #ccc;
-  color: blue;
+  background-color: #494646;
+  color: rgb(244, 244, 246);
   font-family: "Roboto", sans-serif;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow-y: scroll;
-
+border: 5px solid #625d6a;
+border-radius: 5px;
 }
-.chat-message {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-  color: #000;
-}
-.chat-message-left {
-  text-align: left;
-}
-.chat-message-right {
+.chat-message-right,.k-only,.k-message, .k-bubble {
   text-align: right;
 }
 .App {
-  text-align: center;
+  text-align: right;
+}
+.chat-message-left,.k-message-group, .k-no-avatar{
+text-align: left;
 }
 .k-bubble {
   display: flex;
-  justify-content: right;
-  align-items: center;
   height: 100%;
   padding: 2%;
   background-color: #007bff;
-  border-radius: 5%;
+  border-radius: 10%;
+  text-align: left;
 }
 .App-logo {
   height: 40vmin;
@@ -109,22 +82,9 @@ header {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
 .App-link {
   color: #61dafb;
 }
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -140,40 +100,46 @@ header {
   border: none;
   border-radius: 5px;
   margin-left: 5px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   display: flex;
-  align-items: center;
   width: 35px;
   background-image: "https://img.icons8.com/ios/50/000000/send.png";
 }
-
 .k-button-send i {
   padding: 2%;
 }
 .k-widget, .k-chat{
-  height:500px;
+  display:flex;
+  flex-direction: column;
+  height:400px;
   max-width: 100%;
   box-sizing: border-box;
-max-height: 400px;
+  max-height: 400px;
 }
-.input-group{
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 1%;
-  z-index: 5;
-}
-
 @media (max-width: 480px) {
   #chatbox {
     width: 100%;
   }
 }
-@keyframes spinner {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
 .spinner {
-  animation: spinner 1s linear infinite;
+  animation: 1.5s linear infinite spinner;
+  animation-play-state: inherit;
+  border: solid 5px #cfd0d1;
+  border-bottom-color: #1c87c9;
+  border-radius: 50%;
+  content: "";
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  left: 10%; 
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
+}
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
 }

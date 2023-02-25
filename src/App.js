@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Chat } from '@progress/kendo-react-conversational-ui';
 import "./App.css";
 import { sendToOpenAI } from "./openai.js";
@@ -20,6 +20,8 @@ const initialMessages = [
 const App = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+
   const addNewMessage = async (event) => {
     const message = event.message;
     setMessages([...messages, message, { author: bot, typing: true }]);
@@ -36,123 +38,53 @@ const App = () => {
           });
           setIsLoading(false);
           return updatedMessages;
-        });  console.log(isLoading)
+        });
       });
     }
   };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
-    <div
-      id="chatbox"
-      className="my-3"
-      style={{
-        height: "400px",
-        border: "1px",
-        borderRadius: "5px",
-        display: "flex",
-        flexDirection: "column",
-        maxHeight: "400px",
-      }}
-    >
+    <div>
       <Chat
         user={user}
         messages={messages}
         onMessageSend={addNewMessage}
-        width={500}
-        style={{ backgroundColor: "#343a40", borderRadius: "5px" }}
-        messageBoxStyle={{
-          backgroundColor: "#f5f5f5",
-          color: "#000",
-          borderRadius: "5px",
-          flex: 1,
-          maxHeight: "400px",
-        }}
-        bubbleStyle={{
-          backgroundColor: "#fff",
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-          color: "#000",
-          maxWidth: "100%",
-          wordWrap: "break-word",
-          maxHeight: "400px",
-        }}
-        sendButtonStyle={{
-          backgroundColor: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          padding: "5px 10px",
-        }}
-        sendButtonContent={
-          <i className="bi bi-arrow-right" style={{ paddingRight: "5px" }}></i>
-        }
-        messageList={(props) => (
-          <div style={{ flex: 1 }}>
-            {props.messages.map((message, index) => (
-              <div
-                key={index}
-                className={
-                  "chat-message chat-message-" + message.author.position
-                }
-              >
-                <div
-                  style={{ fontSize: "12px", marginTop: "5px", color: "#fff" }}
-                >
-                  {message.timestamp.toLocaleString()}
-                </div>
-                <p style={{ marginTop: "5px" }}>{message.text}</p>
-              </div>
-            ))}
-          </div>
-        )}
+        width={400}
         messageInput={(props) => (
-          <div
-            style={{ display: "flex", alignItems: "center", marginTop: "10px", maxHeight: "400px" }}
-          >
+          <div style={{ display: "flex" }}>
             <input
               type="text"
               value={props.value}
               onChange={props.onChange}
               onKeyDown={props.onKeyDown}
-              placeholder={"What's good?"}
-              style={{
-                backgroundColor: "#f5f5f5",
-                color: "#000",
-                borderRadius: "5px",
-                padding: "5px",
-                flex: 1,
-              }}
+              placeholder="Type your message here..."
             />
-            {isLoading && (
-              <div
-                id="typing"
-                style={{
-                  color: "#000",
-                  fontSize: "1.5em",
-                  marginRight: "0.5em",
-                  zIndex: "9",
-                }}
-              >
-                Typing...
-              </div>
-            )}
-            <button
-              onClick={props.onSend}
-              className={isLoading ? "spinner" : ""}
-              style={{
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                padding: "5px 10px",
-                marginLeft: "5px",
-              }}
-            >
-              <i className="bi bi-arrow-right" style={{ paddingRight: "5px" }}></i>
+            <button onClick={props.onSend}>
+              <i className="bi bi-arrow-right"></i>
             </button>
           </div>
         )}
       />
+      {isLoading && (
+        <div
+          id="typing"
+          className="spinner"
+         
+        >
+          🤖
+        </div>
+      )}
+      <div ref={messagesEndRef} />
     </div>
   );
-            }  
+};
+
 export default App;
