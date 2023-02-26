@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Chat } from '@progress/kendo-react-conversational-ui';
+import { Chat } from "@progress/kendo-react-conversational-ui";
 import "./App.css";
 import { sendToOpenAI } from "./openai.js";
-
+import LoginForm from "./component/LoginForm";
+import SignupForm from "./component/SignupForm.js";
+import Router from "./component/Router.js";
 const user = {
   id: 1,
   avatarUrl:
@@ -21,6 +23,15 @@ const App = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSignupForm, setShowSignupForm] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const addNewMessage = async (event) => {
     const message = event.message;
@@ -28,11 +39,16 @@ const App = () => {
     setIsLoading(true);
 
     if (message.author === user) {
-      sendToOpenAI(message.text).then(response => {
-        setMessages(messages => {
-          const updatedMessages = messages.map(m => {
+      sendToOpenAI(message.text).then((response) => {
+        setMessages((messages) => {
+          const updatedMessages = messages.map((m) => {
             if (m.typing) {
-              return { author: bot, text: response, timestamp: new Date(), typing: false };
+              return {
+                author: bot,
+                text: response,
+                timestamp: new Date(),
+                typing: false,
+              };
             }
             return m;
           });
@@ -47,43 +63,56 @@ const App = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
+  const handleSignupClick = () => {
+    setShowSignupForm(true);
+  };
 
   return (
+    <Router>
     <div>
-      <Chat
-        user={user}
-        messages={messages}
-        onMessageSend={addNewMessage}
-        width={400}
-        messageInput={(props) => (
-          <div style={{ display: "flex" }}>
-            <input
-              type="text"
-              value={props.value}
-              onChange={props.onChange}
-              onKeyDown={props.onKeyDown}
-              placeholder="Type your message here..."
-            />
-            <button onClick={props.onSend}>
-              <i className="bi bi-arrow-right"></i>
-            </button>
-          </div>
+      {isLoggedIn ? (
+        <Chat
+          user={user}
+          messages={messages}
+          onMessageSend={addNewMessage}
+          width={400}
+          messageInput={(props) => (
+            <div style={{ display: "flex" }}>
+              <input
+                type="text"
+                value={props.value}
+                onChange={props.onChange}
+                onKeyDown={props.onKeyDown}
+                placeholder="Type your message here..."
+              />
+              <button onClick={props.onSend}>
+                <i className="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          )}
+        />
+      ) : 
+        showSignupForm ? (
+          <SignupForm />
+        ) : (
+          <LoginForm onLogin={handleLogin} onSignupClick={handleSignupClick} />
         )}
-      />
       {isLoading && (
-        <div
-          id="typing"
-          className="spinner"
-         
-        >
-          🤖
+        <div id="typing" className="spinner">
+          🤖...
         </div>
       )}
       <div ref={messagesEndRef} />
-    </div>
+      {isLoggedIn && <button onClick={handleLogout}>Log out</button>}
+    </div></Router>
   );
 };
 
