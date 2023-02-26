@@ -4,7 +4,8 @@ import "./App.css";
 import { sendToOpenAI } from "./openai.js";
 import LoginForm from "./component/LoginForm";
 import SignupForm from "./component/SignupForm.js";
-import Router from "./component/Router.js";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 const user = {
   id: 1,
   avatarUrl:
@@ -25,6 +26,7 @@ const App = () => {
   const messagesEndRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignupForm, setShowSignupForm] = useState(false);
+  const [isFormLoaded, setIsFormLoaded] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -76,43 +78,56 @@ const App = () => {
   };
 
   return (
-    <Router>
     <div>
-      {isLoggedIn ? (
-        <Chat
-          user={user}
-          messages={messages}
-          onMessageSend={addNewMessage}
-          width={400}
-          messageInput={(props) => (
-            <div style={{ display: "flex" }}>
-              <input
-                type="text"
-                value={props.value}
-                onChange={props.onChange}
-                onKeyDown={props.onKeyDown}
-                placeholder="Type your message here..."
+      <Router>
+        {isLoggedIn ? (
+          <>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Chat
+                    user={user}
+                    messages={messages}
+                    onMessageSend={addNewMessage}
+                    width={400}
+                    messageInput={(props) => (
+                      <div style={{ display: "flex" }}>
+                        <input
+                          type="text"
+                          value={props.value}
+                          onChange={props.onChange}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && !e.shiftKey) {
+                              props.onSend();
+                              scrollToBottom(); // scroll to bottom after sending
+                            }
+                          }}
+                          placeholder="Type your message here..."
+                        />
+                        <button onClick={props.onSend}>
+                          <i className="bi bi-arrow-right"></i>
+                        </button>
+                      </div>
+                    )}
+                  />
+                }
               />
-              <button onClick={props.onSend}>
-                <i className="bi bi-arrow-right"></i>
-              </button>
-            </div>
-          )}
-        />
-      ) : 
-        showSignupForm ? (
-          <SignupForm />
+              <Route path="/signup" element={<SignupForm />} />
+            </Routes>
+            <div ref={messagesEndRef} /> {/* anchor for scrollToBottom */}
+          </>
         ) : (
           <LoginForm onLogin={handleLogin} onSignupClick={handleSignupClick} />
         )}
+      </Router>
       {isLoading && (
         <div id="typing" className="spinner">
           🤖...
         </div>
       )}
-      <div ref={messagesEndRef} />
       {isLoggedIn && <button onClick={handleLogout}>Log out</button>}
-    </div></Router>
+    </div>
   );
 };
 

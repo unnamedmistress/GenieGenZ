@@ -11,7 +11,7 @@ const AppRouter = () => {
   return (
     <BrowserRouter history={history}>
       <Routes>
-        <Route path="/" element={<LoginForm />} />
+        <Route path="/" element={<LoginForm onSignupClick={() => history.push('/signup')} />} />
         <Route path="/signup" element={<SignupForm />} />
       </Routes>
     </BrowserRouter>

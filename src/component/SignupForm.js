@@ -19,11 +19,15 @@ function SignupForm(props) {
       const response = await axios.post('/api/signup', { username, password });
       const token = response.data.token;
       localStorage.setItem('token', token);
-      navigate('/login');
+      props.onSignup(); // call onSignup function passed from App
     } catch (error) {
       console.error(error);
       setErrorMessage('Error creating account');
     }
+  };
+
+  const handleNavigate = () => {
+    navigate('/login');
   };
 
   return (
@@ -41,7 +45,7 @@ function SignupForm(props) {
         <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
       </label>
       {errorMessage && <div className="error-message">{errorMessage}</div>}
-      <button type="submit">Sign up</button>
+      <button type="submit" onClick={handleNavigate}>Sign up</button>
     </form>
   );
 }

@@ -8,7 +8,7 @@ const User = require('./user-model');
 
 // create a new Express router for handling user authentication
 const router = express.Router();
-
+const User = require('./models/User');
 // POST /api/login - handle user authentication
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;

@@ -26,20 +26,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Home</a>
           </li>
-          {localStorage.getItem('token') ? (
-            <>
-              <li class="nav-item">
-                <a class="nav-link" href="#" onClick={() => localStorage.removeItem('token')}>Logout</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Account</a>
-              </li>
-            </>
-          ) : (
-            <li class="nav-item">
-              <a class="nav-link" href="#">Login</a>
-            </li>
-          )}
+          <li class="nav-item">
+            <a class="nav-link" href="#">Login</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -53,7 +42,7 @@
 
   <script src="../src/index.js"></script>
   <script type ="text" src ="../src/App.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>       
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.min.js"></script>
 
 </body>
