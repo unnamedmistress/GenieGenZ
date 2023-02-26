@@ -41,36 +41,35 @@ header {
   height: 10%;
 }
 #root {
-  max-width: 400px;
-  max-height: 600px;
+  max-width: 450px;
+  max-height: 100%;
   margin: 1% auto;
-  padding: 1%;
   background-color: #494646;
   color: rgb(244, 244, 246);
   font-family: "Roboto", sans-serif;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow-y: scroll;
+height: 510px;
 border: 5px solid #625d6a;
 border-radius: 5px;
 }
-.chat-message-right,.k-only,.k-message, .k-bubble {
-  text-align: right;
+.k-bubble, .k-alt {
+   display:flex;
+  flex-direction: column;
+  float: left;
+
 }
-.App {
-  text-align: right;
-}
-.chat-message-left,.k-message-group, .k-no-avatar{
-text-align: left;
+.k-no-avatar, .k-bubble {
+  display:flex;
+  flex-direction: column;
+  float: right;
 }
 .k-bubble {
   display: flex;
-  height: 100%;
-  padding: 2%;
-  background-color: #007bff;
+font-size: 14px;
+padding: 2%;
+  background-color: #1a579d;
   border-radius: 10%;
-  text-align: left;
 }
 .App-logo {
   height: 40vmin;
@@ -108,13 +107,37 @@ text-align: left;
 .k-button-send i {
   padding: 2%;
 }
-.k-widget, .k-chat{
+.k-message-list.k-avatars{
   display:flex;
   flex-direction: column;
-  height:400px;
+  height:100%;
   max-width: 100%;
   box-sizing: border-box;
+  max-height: 450px;
+ overflow-y: scroll;
+  padding: 1%;
+  position: relative;
+}
+.k-widget.k-chat{
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  max-height: 100%;
+  width: 100%;
+  max-width: 98%;
+  box-sizing: border-box;
+  padding: 1%;
+  position: relative;  
+    
+}
+.k-message-list-content{
+  display:flex;
+  flex-direction: column;
+  max-width: 100%;
+  padding: 1%;
+  position: relative;
   max-height: 400px;
+
 }
 @media (max-width: 480px) {
   #chatbox {
@@ -131,9 +154,11 @@ text-align: left;
   height: 40px;
   width: 40px;
   position: absolute;
-  left: 10%; 
+right: 40%;
+top:80%;
   transform: translate3d(-50%, -50%, 0);
   will-change: transform;
+  margin-bottom: 15%;
 }
 @keyframes spinner {
   0% {
