@@ -14,8 +14,13 @@ function sendToOpenAI(text, apiKey) {
         'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
       };
       const requestBody = {
-        'model': 'text-davinci-003',
-        'prompt': process.env.REACT_APP_SECRET + " " + text,
+        'model': 'gpt-3.5-turbo',
+        'messages': [
+          {"role": "system", "content": "You are a tutor"},
+          {"role": "user", "content": text},
+          {"role": "assistant", "content": process.env.REACT_APP_SECRET}
+      ],
+        'stream':  true,
         'max_tokens': 2500,
         'temperature': 0,
       }; 

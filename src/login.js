@@ -3,14 +3,11 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// import your User model or schema
-const User = require('./user-model');
-
 // create a new Express router for handling user authentication
 const router = express.Router();
-const User = require('./models/User');
+const User = require('../models/User');
 // POST /api/login - handle user authentication
-router.post('/login', async (req, res) => {
+router.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
 
   // check if user exists in the database

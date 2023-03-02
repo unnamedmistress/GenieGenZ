@@ -1,22 +1,18 @@
-const User = require('./modlels/Schema.js');
+import mongoose from 'mongoose';
 
-// Create a new user
-const user = new User({
-  username: 'john.doe',
-  password: 'password123',
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
 });
-user.save();
 
-// Find a user by username
-User.findOne({ username: 'john.doe' }).then((user) => {
-  console.log(user);
-});
+const User = mongoose.model('User', userSchema);
 
-// Update a user's password
-User.findOneAndUpdate(
-  { username: 'john.doe' },
-  { password: 'newPassword123' }
-);
+export default mongoose.model('User', userSchema);
 
-// Delete a user
-User.deleteOne({ username: 'john.doe' });
