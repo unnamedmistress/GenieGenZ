@@ -16,9 +16,8 @@ function SignupForm(props) {
       return;
     }
     try {
-      const response = await axios.post('/api/signup', { username, password });
-      const token = response.data.token;
-      localStorage.setItem('token', token);
+    const response = await axios.post('http://localhost:3000/api/signup', { username, password });
+
       props.onSignup(); // call onSignup function passed from App
     } catch (error) {
       console.error(error);
@@ -27,7 +26,7 @@ function SignupForm(props) {
   };
 
   const handleNavigate = () => {
-    navigate('/login');
+    navigate('/api/login');
   };
 
   return (

@@ -1,17 +1,13 @@
 const express = require('express');
 const helmet = require('helmet');
-const express = require('express');
 const mongoose = require('mongoose');
-const helmet = require('helmet');
 const app = express();
 const path = require('path');
 const dotenv = require('dotenv');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const User = require('./model/User');
-const connection = require('./model/connect');
-
+const User = require('../models/User');
+const connection = require('../models/connect');
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
@@ -31,12 +27,13 @@ db.once('open', function() {
   console.log('Connected to MongoDB!');
 });
 
-
 // Initialize the database connection
 connection();
+
 // POST /api/signup
 app.post('/api/signup', async (req, res) => {
   const { username, password } = req.body;
+  console.log(`Received signup request for username: ${username}, password: ${password}`);
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -44,34 +41,39 @@ app.post('/api/signup', async (req, res) => {
   // Save the new user to the database
   const newUser = await User.create({ username, password: hashedPassword });
 
-  // Generate a JWT
-  const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET);
+  console.log(`New user created: ${newUser}`);
 
-  // Send the token back to the client
-  res.json({ token });
+  res.json({ message: 'User created successfully' });
 });
-dotenv.config({ path: path.join(__dirname, '.env') });
 
-app.use(express.json());
-app.use(helmet());
+// POST /api/login
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+  console.log(`Received login request for username: ${username}, password: ${password}`);
+
+  // check if user exists in the database
+  const user = await User.findOne({ username });
+  console.log(`Found user in the database: ${user}`);
+
+  if (!user) {
+    console.log('User not found in the database');
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
+
+  // compare password with hashed password in the database
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  console.log(`Password match: ${passwordMatch}`);
+
+  if (!passwordMatch) {
+    console.log('Invalid password');
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
+
+  console.log('Logged in successfully');
+  res.json({ message: 'Logged in successfully' });
+});
 
 const port = process.env.PORT || 3000;
-
-const openaiConfig = createOpenAIConfig({
-  apiKey: process.env.REACT_APP_OPENAI_API_KEY
-});
-
-
-app.post('/api/generate', async (req, res) => {
-  const text = req.body.text;
-  try {
-    const response = await sendToOpenAI(text, openaiConfig);
-    res.json({ result: response });
-  } catch (err) {
-    console.error(`Error generating message from OpenAI: ${err}`);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

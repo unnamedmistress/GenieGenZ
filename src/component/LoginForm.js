@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
-
 
 function LoginForm(props) {
   const [username, setUsername] = useState("");
@@ -8,13 +6,24 @@ function LoginForm(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const url = "http://localhost:3000/api/login";
+    console.log("Sending POST request to:", url);
     try {
-      const response = await axios.post("/api/login", { username, password });
-      const token = response.data.token;
-      localStorage.setItem("token", token);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });console.log(response);
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      const data = await response.json();
+      console.log(data);
       props.onLogin();
     } catch (error) {
-      console.error(error);
+      console.error("client side:" + error);
       alert("Error logging in");
     }
   };
@@ -38,7 +47,9 @@ function LoginForm(props) {
         />
       </label>
       <button type="submit">Log in</button>
-      <button type="button" onClick={props.onSignupClick}>Sign up</button>
+      <button type="button" onClick={props.onSignupClick}>
+        Sign up
+      </button>
     </form>
   );
 }
