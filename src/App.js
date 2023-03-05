@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Chat } from "@progress/kendo-react-conversational-ui";
 import "./App.css";
-import { sendToOpenAI } from "./openai.js";
-import LoginForm from "./component/LoginForm";
+import openai from './openai.js';
+import LoginForm from "./component/LoginForm.js";
 import SignupForm from "./component/SignupForm.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+const { generateText, moderateText } = openai;
 const user = {
   id: 1,
   avatarUrl:
@@ -41,22 +41,24 @@ const App = () => {
     setIsLoading(true);
 
     if (message.author === user) {
-      sendToOpenAI(message.text).then((response) => {
-        setMessages((messages) => {
-          const updatedMessages = messages.map((m) => {
-            if (m.typing) {
-              return {
-                author: bot,
-                text: response,
-                timestamp: new Date(),
-                typing: false,
-              };
-            }
-            return m;
-          });
-          setIsLoading(false);
-          return updatedMessages;
+      // generate response from OpenAI API
+      const response = await generateText(message.text);
+
+      // add response to messages and remove typing indicator
+      setMessages((messages) => {
+        const updatedMessages = messages.map((m) => {
+          if (m.typing) {
+            return {
+              author: bot,
+              text: response,
+              timestamp: new Date(),
+              typing: false,
+            };
+          }
+          return m;
         });
+        setIsLoading(false);
+        return updatedMessages;
       });
     }
   };
