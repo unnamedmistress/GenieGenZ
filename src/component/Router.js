@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import LoginForm from './LoginForm.js';
-import SignupForm from './SignupForm';
+import SignupForm from './SignupForm.js';
 
 const AppRouter = () => {
   const history = createBrowserHistory();

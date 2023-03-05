@@ -4,8 +4,14 @@ import "./App.css";
 import openai from './openai.js';
 import LoginForm from "./component/LoginForm.js";
 import SignupForm from "./component/SignupForm.js";
+import { SignupButton } from "./component/SignButton.js";
+import AuthButtons from './component/LogButton.js';
+import { LogoutButton } from "./component/LogoutButton.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Nav } from "./component/Nav.js";
+
 const { generateText, moderateText } = openai;
+
 const user = {
   id: 1,
   avatarUrl:
@@ -75,10 +81,18 @@ const App = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
   };
-  const handleSignupClick = () => {
+  const handleSignup = () => {
     setShowSignupForm(true);
   };
+  const [dots, setDots] = useState(0);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDots((prevDots) => (prevDots + 1) % 4);
+    }, 500);
+    return () => clearInterval(intervalId);
+  }, []);
+  
   return (
     <div>
       <Router>
@@ -115,22 +129,38 @@ const App = () => {
                   />
                 }
               />
-              <Route path="/signup" element={<SignupForm />} />
-            </Routes>
-            <div ref={messagesEndRef} /> {/* anchor for scrollToBottom */}
-          </>
-        ) : (
-          <LoginForm onLogin={handleLogin} onSignupClick={handleSignupClick} />
-        )}
+                       <Route path="/signup" element={<SignupForm />} />
+          </Routes>
+          <SignupButton 
+            isLoggedIn={isLoggedIn}
+            handleLogout={handleLogout}
+          />
+        </>
+      ) : (
+        <>
+          {showSignupForm ? (
+            <SignupForm
+              onSignup={handleSignup}
+              onFormLoad={() => setIsFormLoaded(true)}
+            />
+          ) : (
+            <LoginForm
+              onLogin={handleLogin}
+              onSignupClick={() => setShowSignupForm(true)}
+            />
+          )}
+        </>
+      )}
+        <div ref={messagesEndRef} /> {/* anchor for scrollToBottom */}
       </Router>
       {isLoading && (
         <div id="typing" className="spinner">
-          🤖...
+          🤖{".".repeat(dots)}
         </div>
       )}
-      {isLoggedIn && <button onClick={handleLogout}>Log out</button>}
     </div>
   );
+
 };
 
 export default App;

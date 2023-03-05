@@ -13,18 +13,20 @@ function LoginForm(props) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({ username, password }),
-      });console.log(response);
-      if (!response.ok) {
+      });
+      console.log("response : " + response);
+      console.log("response.ok : " + response.ok)
+      if (response.ok) {
+        props.onLogin();
+      } else {
         throw new Error("HTTP error " + response.status);
       }
-      const data = await response.json();
-      console.log(data);
-      props.onLogin();
     } catch (error) {
       console.error("client side:" + error);
-      alert("Error logging in");
+      alert("Error logging in" + error);
     }
   };
 
@@ -35,6 +37,7 @@ function LoginForm(props) {
         <input
           type="text"
           value={username}
+          placeholder="user1"
           onChange={(e) => setUsername(e.target.value)}
         />
       </label>
@@ -43,6 +46,7 @@ function LoginForm(props) {
         <input
           type="password"
           value={password}
+          placeholder="password1"
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>

@@ -1,52 +1,62 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-function SignupForm(props) {
+const SignupForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (password !== confirmPassword) {
-      setErrorMessage("Passwords don't match");
+      alert('Passwords do not match');
       return;
     }
     try {
-    const response = await axios.post('http://localhost:3000/api/signup', { username, password });
-
-      props.onSignup(); // call onSignup function passed from App
+      const res = await axios.post('/api/signup', { username, password });
+      console.log(res.data);
+      // redirect to login page after successful signup
+      window.location = '/';
     } catch (error) {
       console.error(error);
-      setErrorMessage('Error creating account');
     }
   };
 
-  const handleNavigate = () => {
-    navigate('/api/login');
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-      </label>
-      <label>
-        Password:
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
-      <label>
-        Confirm Password:
-        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-      </label>
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
-      <button type="submit" onClick={handleNavigate}>Sign up</button>
-    </form>
+    <div>
+      <h1>Sign up</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="confirm-password">Confirm Password</label>
+          <input
+            type="password"
+            id="confirm-password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit">Sign up</button>
+      </form>
+    </div>
   );
-}
+};
 
 export default SignupForm;
