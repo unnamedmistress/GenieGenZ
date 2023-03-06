@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import * as openai from 'openai';
+import openai from 'openai-api';
 import cors from 'cors';
 import User from './models/User.js';
 import connect from './models/connect.js';
@@ -47,8 +47,6 @@ db.once('open', function() {
   console.log('Connected to MongoDB!');
 });
 
-// Set up the OpenAI API key
-openai.apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
 // POST /api/login
 app.post('/api/login', async (req, res) => {
