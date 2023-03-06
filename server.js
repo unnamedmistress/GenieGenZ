@@ -5,7 +5,6 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import openai from 'openai';
 import cors from 'cors';
 import User from './models/User.js';
 import connect from './models/connect.js';
@@ -14,7 +13,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
-
 
 const app = express();
 
@@ -27,6 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors());
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(new URL('./client/build', import.meta.url)));
 
@@ -34,16 +33,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(new URL('./client/build/index.html', import.meta.url));
   });
 }
-
-  
-  
-  
-  
-  
-  
-  
-}
-
 
 connect();
 
@@ -65,13 +54,6 @@ db.once('open', function() {
 app.post('/api/signup', async (req, res) => {
   const { username, password } = req.body;
   console.log(`Received signup request for username: ${username}, password: ${password}`);
-
-  // Moderate the password
-  const moderationResponse = await openaiClient.moderateText(password);
-  if (moderationResponse.flagged) {
-    console.log(`Password '${password}' was flagged for moderation: ${JSON.stringify(moderationResponse)}`);
-    return res.status(403).json({ error: 'Password is not allowed' });
-  }
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -98,13 +80,13 @@ app.post('/api/login', async (req, res) => {
 
   // check if user exists in the database
   const user = await User.findOne({ username: req.body.username });
-if (!user) {
-  const newUser = new User({ username: req.body.username });
-  await newUser.save();
-  res.send('User added successfully!');
-} else {
-  res.send('Username already exists.');
-}
+  if (!user) {
+    const newUser = new User({ username: req.body.username });
+    await newUser.save();
+    res.send('User added successfully!');
+  } else {
+    res.send('Username already exists.');
+  }
 
   // compare password with hashed password in the database
   const passwordMatch = await bcrypt.compare(password, user.password);
