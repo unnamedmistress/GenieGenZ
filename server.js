@@ -20,7 +20,8 @@ dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
 const app = express();
 
 app.use(express.json());
-app.use(express.static(new URL('./client/build', import.meta.url).pathname));
+app.use(express.static(__dirname + '/client/build'));
+
 
 
 app.use(helmet());
