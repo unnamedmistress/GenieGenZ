@@ -4,7 +4,7 @@ Perfect for asking school questions, asking for advice or just when you need a p
 # Features
 Text message like framework. Uses Kendo-React.
 
-![Alt text](/AutoCompleteSteroids/public/Screenshot.png)
+![Alt text](./public/Screenshot.png)
 
 # Play with Me
 
