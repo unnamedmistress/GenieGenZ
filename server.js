@@ -54,11 +54,18 @@ app.post('/api/signup', async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Save the new user to the database
-  const newUser = await User.create({ username, password: hashedPassword });
-
-  console.log(`New user created: ${newUser}`);
-
-  res.json({ message: 'User created successfully' });
+  try {
+    const newUser = await User.create({ username, password: hashedPassword });
+    console.log(`New user created: ${newUser}`);
+    res.json({ message: 'User created successfully' });
+  } catch (error) {
+    if (error instanceof mongoose.Error && error.code === 11000) {
+      console.log(`Username '${username}' already exists in the database`);
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // POST /api/login

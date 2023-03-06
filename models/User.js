@@ -2,8 +2,8 @@ import User from '../models/User.js';
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, unique: true },
-  password: String,
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
 userSchema.pre('save', async function(next) {
   try {
