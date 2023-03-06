@@ -16,7 +16,7 @@ const { generateText, moderateText } = openai;
 const user = {
   id: 1,
   avatarUrl:
-    "https://img.favpng.com/25/12/17/cute-robot-clip-art-png-favpng-FVkLQ59NPt9QUSC9rgwsFHVKQ.jpg",
+    "../public/genie.png",
   avatarAltText: "Genie",
   style: { width: "50px", height: "50px" },
 };
