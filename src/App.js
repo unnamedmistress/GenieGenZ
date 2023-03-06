@@ -129,28 +129,25 @@ const App = () => {
                   />
                 }
               />
-                       <Route path="/signup" element={<SignupForm />} />
-          </Routes>
-          <SignupButton 
-            isLoggedIn={isLoggedIn}
-            handleLogout={handleLogout}
-          />
-        </>
-      ) : (
-        <>
-          {showSignupForm ? (
-            <SignupForm
-              onSignup={handleSignup}
-              onFormLoad={() => setIsFormLoaded(true)}
-            />
-          ) : (
-            <LoginForm
-              onLogin={handleLogin}
-              onSignupClick={() => setShowSignupForm(true)}
-            />
-          )}
-        </>
-      )}
+              <Route path="/logout" element={<LogoutButton handleLogout={handleLogout} />} />
+            </Routes>
+            <LogoutButton isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+          </>
+        ) : (
+          <>
+            {showSignupForm ? (
+              <SignupForm
+                onSignup={handleSignup}
+                onFormLoad={() => setIsFormLoaded(true)}
+              />
+            ) : (
+              <LoginForm
+                onLogin={handleLogin}
+                onSignupClick={() => setShowSignupForm(true)}
+              />
+            )}
+          </>
+        )}
         <div ref={messagesEndRef} /> {/* anchor for scrollToBottom */}
       </Router>
       {isLoading && (
@@ -160,7 +157,6 @@ const App = () => {
       )}
     </div>
   );
-
 };
 
 export default App;
