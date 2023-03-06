@@ -20,7 +20,7 @@ dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
 const app = express();
 
 app.use(express.json());
-app.use(express.static(__dirname + '/client/build'));
+app.use(express.static(__dirname + '/build'));
 
 
 
@@ -32,10 +32,10 @@ app.use((req, res, next) => {
 app.use(cors());
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(new URL('./client/build', import.meta.url)));
+  app.use(express.static(new URL('./build', import.meta.url)));
 
   app.get("*", (req, res) => {
-    res.sendFile(new URL('./client/build/index.html', import.meta.url));
+    res.sendFile(new URL('./build/index.html', import.meta.url));
   });
 }
 
