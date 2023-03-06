@@ -6,7 +6,8 @@ import LoginForm from "./component/LoginForm.js";
 import SignupForm from "./component/SignupForm.js";
 import { SignupButton } from "./component/SignButton.js";
 import AuthButtons from './component/LogButton.js';
-import { LogoutButton } from "./component/LogoutButton.js";
+import LogoutButton from './component/LogoutButton.js';
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Nav } from "./component/Nav.js";
 
