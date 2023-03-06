@@ -6,7 +6,7 @@ function LoginForm(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const url = "http://localhost:3000/api/login";
+    const url = "https://textfunopenai.herokuapp.com/api/login";
     console.log("Sending POST request to:", url);
     try {
       const response = await fetch(url, {

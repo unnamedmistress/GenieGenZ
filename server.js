@@ -20,7 +20,13 @@ dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
 const app = express();
 
 app.use(express.json());
-app.use(express.static(__dirname + '/build'));
+app.use(express.static(__dirname + "/build", { 
+  setHeaders: (res, path) => {
+    if (path.endsWith(".js")) {
+      res.setHeader("Content-Type", "text/javascript");
+    }
+  }
+}));
 
 
 
@@ -49,7 +55,7 @@ db.once('open', function() {
 
 
 // POST /api/login
-app.post('/api/login', async (req, res) => {
+app.post('https://textfunopenai.herokuapp.com/api/login', async (req, res) => {
   const { username, password } = req.body;
   console.log(`Received login request for username: ${username}, password: ${password}`);
 
