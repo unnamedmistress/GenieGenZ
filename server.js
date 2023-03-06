@@ -5,7 +5,7 @@ import { join } from 'path';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import openai from 'openai';
-
+import cors from 'cors';
 import User from './models/User.js';
 import connect from './models/connect.js';
 
@@ -20,6 +20,7 @@ app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   next();
 });
+app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {

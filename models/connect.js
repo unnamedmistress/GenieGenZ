@@ -4,7 +4,7 @@ import User from '../models/User.js';
 
 import { users } from '../data/users.mjs';
 
-const mongodb_url = "mongodb+srv://momchrysti:mA2mrD-khF%403NLU@cluster0.p1qcsqd.mongodb.net/test";
+const mongodb_url = process.env.REACT_APP_MONGO_URI;
 
 const connect = async () => {
   try {
