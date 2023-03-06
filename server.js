@@ -5,15 +5,18 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
+import * as openai from 'openai';
 import cors from 'cors';
 import User from './models/User.js';
 import connect from './models/connect.js';
 
+// Set up environment variables and constants
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
 
+// Initialize the express app and middleware
 const app = express();
 
 app.use(express.json());
@@ -50,28 +53,8 @@ db.once('open', function() {
   console.log('Connected to MongoDB!');
 });
 
-// POST /api/signup
-app.post('/api/signup', async (req, res) => {
-  const { username, password } = req.body;
-  console.log(`Received signup request for username: ${username}, password: ${password}`);
-
-  // Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  // Save the new user to the database
-  try {
-    const newUser = await User.create({ username, password: hashedPassword });
-    console.log(`New user created: ${newUser}`);
-    res.json({ message: 'User created successfully' });
-  } catch (error) {
-    if (error instanceof mongoose.Error && error.code === 11000) {
-      console.log(`Username '${username}' already exists in the database`);
-      return res.status(400).json({ error: 'Username already exists' });
-    }
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-});
+// Set up the OpenAI API key
+openai.apiKey = process.env.OPENAI_API_KEY;
 
 // POST /api/login
 app.post('/api/login', async (req, res) => {
