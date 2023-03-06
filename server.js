@@ -28,8 +28,6 @@ app.use(express.static(__dirname + "/build", {
   }
 }));
 
-
-
 app.use(helmet());
 app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
@@ -53,20 +51,15 @@ db.once('open', function() {
   console.log('Connected to MongoDB!');
 });
 
-
 // POST /api/login
-app.post('https://textfunopenai.herokuapp.com/api/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   console.log(`Received login request for username: ${username}, password: ${password}`);
 
   // check if user exists in the database
-  const user = await User.findOne({ username: req.body.username });
+  const user = await User.findOne({ username });
   if (!user) {
-    const newUser = new User({ username: req.body.username });
-    await newUser.save();
-    res.send('User added successfully!');
-  } else {
-    res.send('Username already exists.');
+    return res.status(400).json({ error: 'Invalid username or password' });
   }
 
   // compare password with hashed password in the database
@@ -77,8 +70,8 @@ app.post('https://textfunopenai.herokuapp.com/api/login', async (req, res) => {
     console.log('Invalid password');
     return res.status(400).json({ error: 'Invalid username or password' });
   }
-  res.status(200).json({ success: true, message: 'Login successful' });
 
+  res.status(200).json({ success: true, message: 'Login successful' });
 });
 
 app.get('/', (req, res) => {
