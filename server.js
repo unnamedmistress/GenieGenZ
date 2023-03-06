@@ -74,12 +74,12 @@ app.post('/api/login', async (req, res) => {
   res.status(200).json({ success: true, message: 'Login successful' });
 
 });
-if (process.env.NODE_ENV === "production") {
+
   app.use(express.static(__dirname + "/build"));
   app.get("/", (req, res) => {
     res.sendFile(__dirname + "/build/index.html");
   });
-}
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
