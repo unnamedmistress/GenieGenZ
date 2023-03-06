@@ -2,7 +2,7 @@ import { MongoClient } from 'mongodb';
 import mongoose from 'mongoose';
 import User from '../models/User.js';
 
-import { users } from './users.mjs';
+import { users } from '../data/users.mjs';
 
 const mongodb_url = process.env.REACT_APP_MONGODB_URI;
 
