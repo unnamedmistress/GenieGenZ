@@ -1,7 +1,8 @@
 import express from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
-import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import openai from 'openai';
@@ -9,13 +10,16 @@ import cors from 'cors';
 import User from './models/User.js';
 import connect from './models/connect.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
 
 
 const app = express();
 
 app.use(express.json());
-app.use(express.static(path.join(new URL('.', import.meta.url).pathname, 'client', 'build')));
+app.use(express.static(new URL('./client/build', import.meta.url)));
 
 app.use(helmet());
 app.use((req, res, next) => {
@@ -24,11 +28,12 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  app.use(express.static(new URL('./client/build', import.meta.url)));
 
- vapp.get('*', (req, res) => {
-  res.sendFile(path.join(new URL('client/build/index.html', import.meta.url)));
-});
+  app.get("*", (req, res) => {
+    res.sendFile(new URL('./client/build/index.html', import.meta.url));
+  });
+}
 
   
   
