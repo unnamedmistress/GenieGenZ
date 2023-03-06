@@ -21,9 +21,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Initialize the OpenAI API client
-const openaiClient = new openai(process.env.REACT_APP_OPENAI_API_KEY);
-
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
