@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 function LoginForm(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,8 +24,8 @@ function LoginForm(props) {
         throw new Error("HTTP error " + response.status);
       }
     } catch (error) {
-      console.error("client side:" + error);
-      alert("Error logging in" + error);
+      console.error("client side: " + error);
+      alert("Error logging in " + error);
     }
   };
 
