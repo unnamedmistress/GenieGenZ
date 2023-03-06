@@ -17,7 +17,6 @@ function LoginForm(props) {
         },
         body: JSON.stringify({ username, password }),
       });
-      console.log("response : " + response);
       console.log("response.ok : " + response.ok)
       if (response.ok) {
         props.onLogin();

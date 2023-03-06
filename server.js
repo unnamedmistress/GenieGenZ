@@ -20,13 +20,7 @@ dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
 const app = express();
 
 app.use(express.json());
-app.use(express.static(__dirname + "/build", { 
-  setHeaders: (res, path) => {
-    if (path.endsWith(".js")) {
-      res.setHeader("Content-Type", "text/javascript");
-    }
-  }
-}));
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(helmet());
 app.use((req, res, next) => {
