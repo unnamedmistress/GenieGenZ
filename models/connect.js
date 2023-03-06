@@ -19,3 +19,4 @@ mongoose.connect(mongodb_url, {
     mongoose.connection.close();
   });
 }).catch((err) => console.error('Could not connect to MongoDB', err));
+export default mongoose.connection;
