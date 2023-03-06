@@ -67,7 +67,7 @@ app.post('/api/login', async (req, res) => {
     console.log('User not found');
     return res.status(400).json({ error: 'Invalid username or password' });
   }
-
+console.log('User found' + user); console.log('Received login request for username: ' + username + ', password: ' + password);
   // compare password with hashed password in the database
   const passwordMatch = await bcrypt.compare(password, user.password);
   console.log(`Password match: ${passwordMatch}`);
