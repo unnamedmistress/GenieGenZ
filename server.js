@@ -5,10 +5,10 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import openai from 'openai-api';
 import cors from 'cors';
 import User from './models/User.js';
 import connect from './models/connect.js';
+
 
 // Set up environment variables and constants
 const __filename = fileURLToPath(import.meta.url);
@@ -75,10 +75,9 @@ app.post('/api/login', async (req, res) => {
 
 });
 
-  app.use(express.static(__dirname + "/build"));
-  app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/build/index.html");
-  });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+});
 
 const port = process.env.PORT || 3000;
 
