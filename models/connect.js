@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
 import User from '../models/User.js';
-
 import { users } from './users.mjs';
 
 const mongodb_url = process.env.REACT_APP_MONGODB_URI;
 
-mongoose.connect(mongodb_url, {
+const connectionPromise = mongoose.connect(mongodb_url, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -19,4 +18,8 @@ mongoose.connect(mongodb_url, {
     mongoose.connection.close();
   });
 }).catch((err) => console.error('Could not connect to MongoDB', err));
-export default mongoose.connection;
+
+export default async function connect() {
+  await connectionPromise;
+  return mongoose.connection;
+}

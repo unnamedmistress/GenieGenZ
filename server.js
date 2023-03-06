@@ -22,6 +22,8 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 
+connect();
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -34,9 +36,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   console.log('Connected to MongoDB!');
 });
-
-// Initialize the database connection
-connect();
 
 // POST /api/signup
 app.post('/api/signup', async (req, res) => {
