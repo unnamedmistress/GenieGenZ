@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === "production") {
 connect();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.REACT_APP_MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -54,7 +54,7 @@ db.once('open', function() {
 });
 
 // Set up the OpenAI API key
-openai.apiKey = process.env.OPENAI_API_KEY;
+openai.apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
 // POST /api/login
 app.post('/api/login', async (req, res) => {
