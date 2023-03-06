@@ -9,7 +9,8 @@ import openai from 'openai';
 import User from './models/User.js';
 import connect from './models/connect.js';
 
-dotenv.config({ path: join(__dirname, '.env') });
+dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
+
 
 const app = express();
 
