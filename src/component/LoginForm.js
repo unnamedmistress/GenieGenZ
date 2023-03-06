@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState } from "react";
 function LoginForm(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -31,30 +31,34 @@ function LoginForm(props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Username:
+      <div className="form-group">
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
+          className="form-control"
+          id="username"
           value={username}
           placeholder="user1"
           onChange={(e) => setUsername(e.target.value)}
         />
-      </label>
-      <label>
-        Password:
+      </div>
+      <div className="form-group">
+        <label htmlFor="password">Password:</label>
         <input
           type="password"
+          className="form-control"
+          id="password"
           value={password}
           placeholder="password1"
           onChange={(e) => setPassword(e.target.value)}
         />
-      </label>
-      <button type="submit">Log in</button>
-      <button type="button" onClick={props.onSignupClick}>
+      </div>
+      <button type="submit" className="btn btn-primary mr-2">Log in</button>
+      <button type="button" className="btn btn-secondary" onClick={props.onSignupClick}>
         Sign up
       </button>
     </form>
   );
 }
 
-export default LoginForm;
+export default LoginForm
