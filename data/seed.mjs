@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import User from '../models/User.js';
 import dotenv from 'dotenv';
 
-import { users } from './users.mjs';
+import { users } from '../models/users.mjs';
 
 const mongodb_url = process.env.REACT_APP_MONGO_URI;
 
