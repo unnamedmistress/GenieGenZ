@@ -1,23 +1,33 @@
-const mongoose = require('mongoose');
-const userData = require('../data/users.mjs');
+import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
+import User from '../models/User.js';
 
-const connect = () => {
-  mongoose.connect('mongodb://localhost:27017/geniedb', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
+import { users } from './users.mjs';
 
-  const db = mongoose.connection;
+const mongodb_url = process.env.REACT_APP_MONGODB_URI;
 
-  db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-  db.once('open', function() {
-    console.log('Connected to MongoDB!');
+mongoose.connect(mongodb_url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Connected to MongoDB');
 
-    User.insertMany(userData)
-      .then(() => console.log('Data seeded'))
-      .catch(err => console.error('Could not seed data', err))
-      .finally(() => mongoose.connection.close());
-  });
-};
+  (async () => {
+    const client = await MongoClient.connect(mongodb_url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
 
-module.exports = connect;
+    const db = client.db();
+
+    try {
+      await db.collection('users').insertMany(users);
+      console.log('Data imported');
+    } catch (err) {
+      console.error(err);
+    } finally {
+      client.close();
+      mongoose.connection.close();
+    }
+  })();
+}).catch((err) => console.error('Could not connect to MongoDB', err));

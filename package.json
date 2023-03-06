@@ -31,6 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "seed": "node --experimental-modules data/seed.mjs",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
