@@ -6,13 +6,15 @@ import { users } from '../data/users.mjs';
 
 const mongodb_url = process.env.REACT_APP_MONGODB_URI;
 
-mongoose.connect(mongodb_url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('Connected to MongoDB');
+const connect = async () => {
+  try {
+    await mongoose.connect(mongodb_url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
 
-  (async () => {
+    console.log('Connected to MongoDB');
+
     const client = await MongoClient.connect(mongodb_url, {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -29,5 +31,9 @@ mongoose.connect(mongodb_url, {
       client.close();
       mongoose.connection.close();
     }
-  })();
-}).catch((err) => console.error('Could not connect to MongoDB', err));
+  } catch (err) {
+    console.error('Could not connect to MongoDB', err);
+  }
+};
+
+export default connect;
