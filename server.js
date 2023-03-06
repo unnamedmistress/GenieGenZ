@@ -7,8 +7,8 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const openai = require('openai')(REACT_APP_OPENAI_API_KEY);
 
-const User = require('../models/User');
-const connect = require('../models/connect');
+const User = require('./models/User');
+const connect = require('./models/connect');
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
