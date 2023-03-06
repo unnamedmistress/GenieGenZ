@@ -1,7 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
-import { join } from 'path';
+import path from 'path';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import openai from 'openai';
@@ -15,6 +15,8 @@ dotenv.config({ path: new URL('./.env', import.meta.url).pathname });
 const app = express();
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(helmet());
 app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
