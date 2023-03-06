@@ -1,39 +1,21 @@
-import { MongoClient } from 'mongodb';
 import mongoose from 'mongoose';
 import User from '../models/User.js';
 
-import { users } from '../data/users.mjs';
+import { users } from './users.mjs';
 
-const mongodb_url = process.env.REACT_APP_MONGO_URI;
+const mongodb_url = process.env.REACT_APP_MONGODB_URI;
 
-const connect = async () => {
-  try {
-    await mongoose.connect(mongodb_url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
+mongoose.connect(mongodb_url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Connected to MongoDB');
 
-    console.log('Connected to MongoDB');
-
-    const client = await MongoClient.connect(mongodb_url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-
-    const db = client.db();
-
-    try {
-      await db.collection('users').insertMany(users);
-      console.log('Data imported');
-    } catch (err) {
-      console.error(err);
-    } finally {
-      client.close();
-      mongoose.connection.close();
-    }
-  } catch (err) {
-    console.error('Could not connect to MongoDB', err);
-  }
-};
-
-export default connect;
+  User.insertMany(users).then(() => {
+    console.log('Data imported');
+    mongoose.connection.close();
+  }).catch((err) => {
+    console.error(err);
+    mongoose.connection.close();
+  });
+}).catch((err) => console.error('Could not connect to MongoDB', err));
