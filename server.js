@@ -61,7 +61,10 @@ app.post('/api/login', async (req, res) => {
 
   // check if user exists in the database
   const user = await User.findOne({ username });
+  console.log('User from database:', user);
+  
   if (!user) {
+    console.log('User not found');
     return res.status(400).json({ error: 'Invalid username or password' });
   }
 
