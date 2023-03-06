@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 import { users } from '../models/users.mjs';
 
-const mongodb_url = process.env.REACT_APP_MONGO_URI;
+const mongodb_url = process.env.REACT_APP_MONGODB_URI;
 
 mongoose.connect(mongodb_url, {
   useNewUrlParser: true,

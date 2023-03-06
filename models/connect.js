@@ -8,7 +8,7 @@ const connectionPromise = mongoose.connect(mongodb_url, {
 }).then(() => {
   console.log('Connected to MongoDB');
 }).catch((err) => console.error('Could not connect to MongoDB', err));
-
+console.log('Connected to MongoDB'+ mongodb_url);
 export default async function connect() {
   await connectionPromise;
   return mongoose.connection;
