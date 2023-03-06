@@ -5,7 +5,8 @@ function LoginForm(props) {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
-    console.log(username + setUsername + password + setPassword)
+    console.log("Username: ", username, "Password: ", password);
+
     event.preventDefault();
     const url = "/api/login";
     console.log("Sending POST request to:", url);

@@ -53,6 +53,9 @@ db.once('open', function() {
 
 // POST /api/login
 app.post('/api/login', async (req, res) => {
+  // set the Access-Control-Allow-Origin header
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
   const { username, password } = req.body;
   console.log(`Received login request for username: ${username}, password: ${password}`);
 
@@ -73,6 +76,7 @@ app.post('/api/login', async (req, res) => {
 
   res.status(200).json({ success: true, message: 'Login successful' });
 });
+
 
 // POST /api/signup
 app.post('/api/signup', async (req, res) => {
