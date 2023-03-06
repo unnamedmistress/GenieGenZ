@@ -74,13 +74,14 @@ app.post('/api/login', async (req, res) => {
   console.log(`Received login request for username: ${username}, password: ${password}`);
 
   // check if user exists in the database
-  const user = await User.findOne({ username });
-  console.log(`Found user in the database: ${user}`);
-
-  if (!user) {
-    console.log('User not found in the database');
-      return res.status(400).json({ error: 'Invalid username or password' });
-  }
+  const user = await User.findOne({ username: req.body.username });
+if (!user) {
+  const newUser = new User({ username: req.body.username });
+  await newUser.save();
+  res.send('User added successfully!');
+} else {
+  res.send('Username already exists.');
+}
 
   // compare password with hashed password in the database
   const passwordMatch = await bcrypt.compare(password, user.password);
