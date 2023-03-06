@@ -31,14 +31,6 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(new URL('./build', import.meta.url)));
-
-  app.get("*", (req, res) => {
-    res.sendFile(new URL('./build/index.html', import.meta.url));
-  });
-}
-
 connect();
 
 // Connect to MongoDB
