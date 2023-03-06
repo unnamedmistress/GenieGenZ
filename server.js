@@ -26,9 +26,17 @@ app.use(cors());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(import.meta.url, "client", "build", "index.html"));
-  });
+ vapp.get('*', (req, res) => {
+  res.sendFile(path.join(new URL('client/build/index.html', import.meta.url)));
+});
+
+  
+  
+  
+  
+  
+  
+  
 }
 
 
