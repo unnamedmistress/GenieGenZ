@@ -104,30 +104,38 @@ const App = () => {
                 path="/"
                 element={
                   <Chat
-                    user={user}
-                    messages={messages}
-                    onMessageSend={addNewMessage}
-                    width={400}
-                    messageInput={(props) => (
-                      <div style={{ display: "flex" }}>
-                        <input
-                          type="text"
-                          value={props.value}
-                          onChange={props.onChange}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" && !e.shiftKey) {
-                              props.onSend();
-                              scrollToBottom(); // scroll to bottom after sending
-                            }
-                          }}
-                          placeholder="Type your message here..."
-                        />
-                        <button onClick={props.onSend}>
-                          <i className="bi bi-arrow-right"></i>
-                        </button>
-                      </div>
-                    )}
-                  />
+                  user={user}
+                  messages={messages}
+                  onMessageSend={addNewMessage}
+                  width={400}
+                  messageInput={(props) => (
+                    <div style={{ display: "flex" }}>
+                      <input
+                        type="text"
+                        value={props.value}
+                        onChange={props.onChange}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !e.shiftKey) {
+                            props.onSend();
+                            scrollToBottom(); // scroll to bottom after sending
+                          }
+                        }}
+                        placeholder="Type your message here..."
+                      />
+                      <button onClick={props.onSend}>
+                        <i className="bi bi-arrow-right"></i>
+                      </button>
+                    </div>
+                  )}
+                  message={(props) => (
+                    <div
+                      className={props.message.author.id === 1 ? "user" : "bot"}
+                      style={{ textAlign: props.message.author.id === 1 ? "right" : "left" }}
+                    >
+                      <Message {...props} />
+                    </div>
+                  )}
+                />
                 }
               />
               <Route path="/logout" element={<LogoutButton handleLogout={handleLogout} />} />
