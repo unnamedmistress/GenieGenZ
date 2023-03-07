@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Chat, Message} from "@progress/kendo-react-conversational-ui";
+import { Chat, MessageItem} from "@progress/kendo-react-conversational-ui";
 import "./App.css";
 import openai from './openai.js';
 import LoginForm from "./component/LoginForm.js";
@@ -132,7 +132,7 @@ const App = () => {
                       className={props.message.author.id === 1 ? "user" : "bot"}
                       style={{ textAlign: props.message.author.id === 1 ? "right" : "left" }}
                     >
-                      <Message {...props} />
+                      <MessageItem {...props} />
                     </div>
                   )}
                 />
