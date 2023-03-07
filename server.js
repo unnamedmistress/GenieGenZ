@@ -83,32 +83,31 @@ app.post('/api/signup', async (req, res) => {
 });
 // POST /api/login
 app.post('/api/login', async (req, res) => {
-  // set the Access-Control-Allow-Origin header
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  console.log('Request body:', req.body);
-
   const { username, password } = req.body;
   console.log(`Received login request for username: ${username}, password: ${password}`);
 
-  // check if user exists in the database
-  const user = await User.findOne({ username }).select('+password');
-  console.log('User from database:', user + user.password);
-  
-  if (!user) {
-    console.log('User not found');
-    return res.status(400).json({ error: 'Invalid username or password' });
-  }
+  try {
+    // check if user exists in the database
+    const user = await User.findOne({ username }).select('+password');
+    if (!user) {
+      console.log('User not found');
+      return res.status(400).json({ error: 'Invalid username or password' });
+    }
 
-  // compare password with hashed password in the database
-  const passwordMatch = await bcrypt.compare(password, user.password);
-  console.log(`Password match: ${passwordMatch} : password`+ password + " user.password " + user.password);
+    // compare password with hashed password in the database
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    console.log(`Password match: ${passwordMatch}`);
   
-  if (!passwordMatch) {
-    console.log('Invalid password');
-    return res.status(400).json({ error: 'Invalid username or password' });
-  }
+    if (!passwordMatch) {
+      console.log('Invalid password');
+      return res.status(400).json({ error: 'Invalid username or password' });
+    }
 
-  res.status(200).json({ success: true, message: 'Login successful' });
+    res.status(200).json({ success: true, message: 'Login successful' });
+  } catch (error) {
+    console.error('Error while logging in user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 
