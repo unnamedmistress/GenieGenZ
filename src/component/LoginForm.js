@@ -27,7 +27,7 @@ function LoginForm(props) {
       }
     } catch (error) {
       console.error("client side: " + error + " " + error.message);
-      alert("Error logging in " + error + " " + response.status);
+      alert("Error logging in " + error );
     }
   };
 
