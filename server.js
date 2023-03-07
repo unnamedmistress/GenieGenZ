@@ -94,8 +94,14 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid username or password' });
     }
 
+    // hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('Hash of password', hashedPassword);
+
     // compare password with hashed password in the database
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    console.log(`Hashed password from the database: ${user.password}`);
+    console.log(`Hashed password from the input: ${hashedPassword}`);
+    const passwordMatch = await bcrypt.compare(hashedPassword, user.password);
     console.log(`Password match: ${passwordMatch}`);
   
     if (!passwordMatch) {
@@ -109,6 +115,7 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 
