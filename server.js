@@ -105,7 +105,7 @@ app.post('/api/login', async (req, res) => {
     const salt = await bcrypt.genSalt(saltRounds);
 
     // hash the password using the generated salt value
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, user.salt);
     console.log('Hash of password', hashedPassword);
 
     // compare password with hashed password in the database
