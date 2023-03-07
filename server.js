@@ -68,7 +68,7 @@ app.post('/api/signup', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
 
     // hash the password using the salt
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password.trim(), salt);
     console.log('Hash of password', hashedPassword);
 
     // create new user in the database with the salt and hashed password
@@ -87,41 +87,26 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
-// POST /api/login
-// POST /api/login
-// POST /api/login
-app.post('/api/login', async (req, res) => {
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  console.log(`Received login request for username: ${username}, password: ${password}`);
+  const user = await User.findOne({ username });
 
-  try {
-    // retrieve user from the database
-    const user = await User.findOne({ username });
-    if (!user) {
-      console.log('User not found');
-      return res.status(400).json({ error: 'Invalid username or password' });
-    }
-
-    // hash the provided password using the salt stored in the database
-    const hashedPassword = await bcrypt.hash(password, user.salt);
-
-    // compare password with hashed password in the database
-    console.log(`Hashed password from the database: ${user.password}`);
-    console.log(`Hashed password from the input: ${hashedPassword}`);
-    const passwordMatch = await bcrypt.compare(hashedPassword, user.password);
-    console.log(`Password match: ${passwordMatch}`);
-
-    if (!passwordMatch) {
-      console.log('Invalid password');
-      return res.status(400).json({ error: 'Invalid username or password' });
-    }
-
-    res.status(200).json({ success: true, message: 'Login successful' });
-  } catch (error) {
-    console.error('Error while logging in user:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid username or password' });
   }
+
+  const passwordMatch = await bcrypt.compare(password.trim(), user.password);
+  console.log(passwordMatch + ' ' + user.password + ' ' + password.trim());
+
+  if (!passwordMatch) {
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
+
+  res.status(200).json({ message: 'Login successful' });
 });
+
+
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'));
