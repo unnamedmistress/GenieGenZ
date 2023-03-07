@@ -100,14 +100,18 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid username or password' });
     }
 
-    // hash the password using the salt from the database
-    const hashedPassword = await bcrypt.hash(password, user.salt);
+    // generate a salt value using the genSalt() method
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+
+    // hash the password using the generated salt value
+    const hashedPassword = await bcrypt.hash(password, salt);
     console.log('Hash of password', hashedPassword);
 
     // compare password with hashed password in the database
     console.log(`Hashed password from the database: ${user.password}`);
     console.log(`Hashed password from the input: ${hashedPassword}`);
-    const passwordMatch = await bcrypt.compare(hashedPassword, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.password);
     console.log(`Password match: ${passwordMatch}`);
 
     if (!passwordMatch) {
