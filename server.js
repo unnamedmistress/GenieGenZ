@@ -55,7 +55,8 @@ db.once('open', function() {
 app.post('/api/signup', async (req, res) => {
   const { username, password } = req.body;
   console.log(`Received signup request for username: ${username}, password: ${password}`);
-
+console.log('username', username);
+console.log('password', password);
   try {
     // check if user already exists in the database
     const user = await User.findOne({ username });
@@ -66,10 +67,11 @@ app.post('/api/signup', async (req, res) => {
 
     // generate a random salt value
     const salt = await bcrypt.genSalt(10);
+    console.log('Generating salt', salt);
 
     // hash the password using the salt
     const hashedPassword = await bcrypt.hash(password.trim(), salt);
-    console.log('Hash of password', hashedPassword);
+    console.log('Hash of password : ', hashedPassword);
 
     // create new user in the database with the salt and hashed password
     const newUser = new User({
@@ -77,7 +79,7 @@ app.post('/api/signup', async (req, res) => {
       salt,
       password: hashedPassword,
     });
-
+console.log('New user', newUser);
     await newUser.save();
 
     res.status(200).json({ success: true, message: 'Signup successful' });
@@ -90,16 +92,21 @@ app.post('/api/signup', async (req, res) => {
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
+console.log('user', user);
+console.log('username', username);
+console.log('password', password);
 
   if (!user) {
     return res.status(401).json({ error: 'Invalid username or password' });
   }
 
-  const passwordMatch = await bcrypt.compare(password.trim(), user.password);
-  console.log(passwordMatch + ' ' + user.password + ' ' + password.trim());
+  const passwordMatch = await bcrypt.compare(password.trim(), user.password.trim());
+  console.log(passwordMatch + ' ' + user.password.trim() + ' ' + password.trim());
 
   if (!passwordMatch) {
+    console.log(passwordMatch + ' ' + user.password.trim() + ' ' + password.trim());  
     return res.status(401).json({ error: 'Invalid username or password' });
+  
   }
 
   res.status(200).json({ message: 'Login successful' });
