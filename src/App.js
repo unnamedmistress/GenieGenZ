@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Chat } from "@progress/kendo-react-conversational-ui";
+import { Chat, Message} from "@progress/kendo-react-conversational-ui";
 import "./App.css";
 import openai from './openai.js';
 import LoginForm from "./component/LoginForm.js";
