@@ -5,7 +5,6 @@ function LoginForm(props) {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
-    console.log(username  + password )
     event.preventDefault();
     const url = "/api/login";
     console.log("Sending POST request to:", url);
@@ -31,7 +30,7 @@ function LoginForm(props) {
       alert("Error logging in " + error);
     }
   };
-console.log(password + username.password + " " + password.password)
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">

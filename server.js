@@ -51,6 +51,38 @@ db.once('open', function() {
   console.log('Connected to MongoDB!');
 });
 // POST /api/signup
+app.post('/api/signup', async (req, res) => {
+  const { username, password } = req.body;
+  console.log(`Received signup request for username: ${username}, password: ${password}`);
+
+  try {
+    // check if user already exists in the database
+    const user = await User.findOne({ username });
+    if (user) {
+      console.log('Username already exists');
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('Hash of password', hashedPassword);
+
+    // create new user in the database
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+
+    res.status(200).json({ success: true, message: 'Signup successful' });
+  } catch (error) {
+    console.error('Error while signing up user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// POST /api/login
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   console.log(`Received login request for username: ${username}, password: ${password}`);
@@ -68,8 +100,7 @@ app.post('/api/login', async (req, res) => {
     console.log(`Password match: ${passwordMatch}`);
   
     if (!passwordMatch) {
-      console.log(password + ' ' + user.password + ' ' + passwordMatch)
-      console.log('Invalid password');
+      console.log('Invalid password '+ password + " user.password :" + user.password);
       return res.status(400).json({ error: 'Invalid username or password' });
     }
 
@@ -79,10 +110,6 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
-
-
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'));
