@@ -21,7 +21,12 @@ const user = {
   style: { width: "50px", height: "50px" },
 };
 
-const bot = { id: 0 };
+const bot = { id: 0,
+  avatarUrl:"../public/genie.png",
+  avatarAltText: "Me",
+  style: { width: "50px", height: "50px" },
+className: "bot",
+ };
 
 const initialMessages = [
   { author: bot, timestamp: new Date(), text: "Hello, What's good?" },
@@ -104,38 +109,42 @@ const App = () => {
                 path="/"
                 element={
                   <Chat
-                  user={user}
-                  messages={messages}
-                  onMessageSend={addNewMessage}
-                  width={400}
-                  messageInput={(props) => (
-                    <div style={{ display: "flex" }}>
-                      <input
-                        type="text"
-                        value={props.value}
-                        onChange={props.onChange}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.shiftKey) {
-                            props.onSend();
-                            scrollToBottom(); // scroll to bottom after sending
-                          }
-                        }}
-                        placeholder="Type your message here..."
-                      />
-                      <button onClick={props.onSend}>
-                        <i className="bi bi-arrow-right"></i>
-                      </button>
-                    </div>
-                  )}
-                  message={(props) => (
-                    <div
-                      className={props.message.author.id === 1 ? "user" : "bot"}
-                      style={{ textAlign: props.message.author.id === 1 ? "right" : "left" }}
-                    >
-                      <Message {...props} />
-                    </div>
-                  )}
-                />
+                    user={user}
+                    messages={messages}
+                    onMessageSend={addNewMessage}
+                    width={400}
+                    messageInput={(props) => (
+                      <div style={{ display: "flex" }}>
+                        <input
+                          type="text"
+                          value={props.value}
+                          onChange={props.onChange}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && !e.shiftKey) {
+                              props.onSend();
+                              scrollToBottom(); // scroll to bottom after sending
+                            }
+                          }}
+                          placeholder="Type your message here..."
+                        />
+                        <button onClick={props.onSend}>
+                          <i className="bi bi-arrow-right"></i>
+                        </button>
+                      </div>
+                    )}
+                    message={(props) => (
+                      <div
+                        className={props.message.author.id === 1 ? "user" : "bot"}
+                        style={{ textAlign: props.message.author.id === 1 ? "right" : "left" }}
+                      >
+                        {props.message.type === "text" ? (
+                          <div>{props.message.text}</div>
+                        ) : (
+                          <AttachmentTemplate item={props.message.attachments[0]} />
+                        )}
+                      </div>
+                    )}
+                  />
                 }
               />
               <Route path="/logout" element={<LogoutButton handleLogout={handleLogout} />} />
