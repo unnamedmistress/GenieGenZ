@@ -55,6 +55,7 @@ db.once('open', function() {
 app.post('/api/login', async (req, res) => {
   // set the Access-Control-Allow-Origin header
   res.setHeader('Access-Control-Allow-Origin', '*');
+  console.log('Request body:', req.body);
 
   const { username, password } = req.body;
   console.log(`Received login request for username: ${username}, password: ${password}`);
@@ -70,7 +71,7 @@ app.post('/api/login', async (req, res) => {
 console.log('User found' + user); console.log('Received login request for username: ' + username + ', password: ' + password);
   // compare password with hashed password in the database
   const passwordMatch = await bcrypt.compare(password, user.password);
-  console.log(`Password match: ${passwordMatch}`+ password + user.password);
+  console.log(`Password match: ${passwordMatch}`+ "password:"+ password + "user.password " + user.password);
   console.log('User found:', user._id + ',' + user.username + ',' + user.password);
   console.log('Received login request for username: ' + username + ', password: ' + password);
   
