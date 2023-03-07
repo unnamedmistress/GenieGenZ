@@ -22,7 +22,7 @@ function LoginForm(props) {
       if (response.ok) {
         props.onLogin();
       } else {
-        console.log(response.error + " " + response.status)
+        console.log( response.status + username + " : " + password)
         throw new Error("HTTP error " + response.status);
       }
     } catch (error) {

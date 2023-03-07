@@ -51,6 +51,7 @@ db.once('open', function() {
   console.log('Connected to MongoDB!');
 });
 // POST /api/signup
+// POST /api/signup
 app.post('/api/signup', async (req, res) => {
   const { username, password } = req.body;
   console.log(`Received signup request for username: ${username}, password: ${password}`);
@@ -63,13 +64,17 @@ app.post('/api/signup', async (req, res) => {
       return res.status(400).json({ error: 'Username already exists' });
     }
 
-    // hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // generate a random salt value
+    const salt = await bcrypt.genSalt(10);
+
+    // hash the password using the salt
+    const hashedPassword = await bcrypt.hash(password, salt);
     console.log('Hash of password', hashedPassword);
 
-    // create new user in the database
+    // create new user in the database with the salt and hashed password
     const newUser = new User({
       username,
+      salt,
       password: hashedPassword,
     });
 
@@ -88,19 +93,25 @@ app.post('/api/login', async (req, res) => {
   console.log(`Received login request for username: ${username}, password: ${password}`);
 
   try {
-    // check if user exists in the database
-    const user = await User.findOne({ username }).select('+password');
+    // retrieve user from the database
+    const user = await User.findOne({ username });
     if (!user) {
       console.log('User not found');
       return res.status(400).json({ error: 'Invalid username or password' });
     }
 
+    // hash the password using the salt from the database
+    const hashedPassword = await bcrypt.hash(password, user.salt);
+    console.log('Hash of password', hashedPassword);
+
     // compare password with hashed password in the database
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    console.log(`Hashed password from the database: ${user.password}`);
+    console.log(`Hashed password from the input: ${hashedPassword}`);
+    const passwordMatch = await bcrypt.compare(hashedPassword, user.password);
     console.log(`Password match: ${passwordMatch}`);
-  
+
     if (!passwordMatch) {
-      console.log('Invalid password '+ password + " user.password :" + user.password);
+      console.log('Invalid password');
       return res.status(400).json({ error: 'Invalid username or password' });
     }
 
@@ -110,6 +121,7 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'));
