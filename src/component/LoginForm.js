@@ -22,12 +22,12 @@ function LoginForm(props) {
       if (response.ok) {
         props.onLogin();
       } else {
-        console.log( response.status + username + " : " + password)
+        console.log( username + " : " + password)
         throw new Error("HTTP error " + response.status);
       }
     } catch (error) {
       console.error("client side: " + error + " " + error.message);
-      alert("Error logging in " + error);
+      alert("Error logging in " + error + " " + response.status);
     }
   };
 

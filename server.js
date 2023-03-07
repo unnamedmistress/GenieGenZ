@@ -89,6 +89,7 @@ app.post('/api/signup', async (req, res) => {
 
 // POST /api/login
 // POST /api/login
+// POST /api/login
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   console.log(`Received login request for username: ${username}, password: ${password}`);
@@ -101,12 +102,8 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid username or password' });
     }
 
-    // generate a new salt value
-    const salt = await bcrypt.genSalt(10);
-
-    // hash the password using the new salt value
-    const hashedPassword = await bcrypt.hash(password, salt);
-    console.log('Hash of password', hashedPassword);
+    // hash the provided password using the salt stored in the database
+    const hashedPassword = await bcrypt.hash(password, user.salt);
 
     // compare password with hashed password in the database
     console.log(`Hashed password from the database: ${user.password}`);
@@ -125,8 +122,6 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'));
