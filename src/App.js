@@ -10,7 +10,41 @@ import LogoutButton from './component/LogoutButton.js';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Nav } from "./component/Nav.js";
-
+const AttachmentTemplate = (props) => {
+  let attachment = props.item;
+  if (attachment.contentType === "hotel") {
+    return (
+      <a
+        href={attachment.site}
+        target="_blank"
+        draggable={false}
+        tabIndex={-1}
+        rel="noopener noreferrer"
+      >
+        <img
+          alt="KendoReact Chat Image"
+          style={{
+            width: 150,
+          }}
+          src={attachment.thumb}
+          draggable={false}
+        />
+      </a>
+    );
+  } else if (attachment.contentType.match("^image/")) {
+    return (
+      <img
+        alt="KendoReact Chat Image"
+        src={attachment.content}
+        draggable={false}
+      />
+    );
+  } else if (attachment.contentType === "text/plain") {
+    return attachment.content;
+  } else {
+    return null;
+  }
+};
 const { generateText, moderateText } = openai;
 
 const user = {
