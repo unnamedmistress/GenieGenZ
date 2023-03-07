@@ -61,7 +61,7 @@ app.post('/api/login', async (req, res) => {
   console.log(`Received login request for username: ${username}, password: ${password}`);
 
   // check if user exists in the database
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username }).select('+password');
   console.log('User from database:', user);
   
   if (!user) {
