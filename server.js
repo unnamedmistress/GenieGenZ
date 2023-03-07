@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import User from './models/User.js';
 import connect from './models/connect.js';
 
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   next();
 });
+app.use(cors());
 
 connect();
 
@@ -51,8 +53,6 @@ db.once('open', function() {
 app.post('/api/signup', async (req, res) => {
   const { username, password } = req.body;
   console.log(`Received signup request for username: ${username}, password: ${password}`);
-console.log('username', username);
-console.log('password', password);
   try {
     // check if user already exists in the database
     const user = await User.findOne({ username });
@@ -61,12 +61,12 @@ console.log('password', password);
       return res.status(400).json({ error: 'Username already exists' });
     }
 
-    // create new user in the database with the salt and hashed password
+    // create new user in the database with the password
     const newUser = new User({
       username,
-      password: password.trim(),
+      password,
     });
-console.log('New user', newUser);
+    console.log('New user', newUser);
     await newUser.save();
 
     res.status(200).json({ success: true, message: 'Signup successful' });
@@ -80,11 +80,15 @@ console.log('New user', newUser);
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
-console.log('user', user);
-console.log('username', username);
-console.log('password', password);
+  console.log('user', user);
+  console.log('username', username);
+  console.log('password', password);
 
-  if (!user || user.password.trim() !== password.trim()) {
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
+
+  if (password.trim() !== user.password.trim()) {
     return res.status(401).json({ error: 'Invalid username or password' });
   }
 
