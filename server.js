@@ -70,8 +70,8 @@ app.post('/api/login', async (req, res) => {
   }
 console.log('User found' + user); console.log('Received login request for username: ' + username + ', password: ' + password);
   // compare password with hashed password in the database
-  const passwordMatch = await bcrypt.compare(password, user.password);
-  console.log(`Password match: ${passwordMatch}`+ "password:"+ password + "user.password " + user.password);
+  const passwordMatch = await bcrypt.compare(hashedPassword, user.password);
+  console.log(`Password match: ${passwordMatch}`+ "password:"+ hashedPassword + "user.password " + user.password);
   console.log('User found:', user._id + ',' + user.username + ',' + user.password);
   console.log('Received login request for username: ' + username + ', password: ' + password);
   
