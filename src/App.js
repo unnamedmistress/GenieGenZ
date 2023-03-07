@@ -31,10 +31,13 @@ const AttachmentTemplate = (props) => {
         />
       </a>
     );
-  } else if (attachment.contentType.match("^image/")) {
+        }else if (attachment.contentType === "image/png") {
     return (
       <img
         alt="KendoReact Chat Image"
+        style={{
+          width: 150,
+        }}
         src={attachment.content}
         draggable={false}
       />
@@ -50,16 +53,19 @@ const { generateText, moderateText } = openai;
 const user = {
   id: 1,
   avatarUrl:
-    "../public/genie.png",
+    "https://www.shutterstock.com/image-vector/smart-blue-robot-glasses-speech-260nw-1440120956.jpg",
   avatarAltText: "Genie",
   style: { width: "50px", height: "50px" },
+  className: "user",
+  isUser: true,
 };
 
 const bot = { id: 0,
-  avatarUrl:"../public/genie.png",
+  avatarUrl:"https://www.shutterstock.com/image-vector/smart-blue-robot-glasses-speech-260nw-1440120956.jpg",
   avatarAltText: "Me",
   style: { width: "50px", height: "50px" },
 className: "bot",
+isUser: false,
  };
 
 const initialMessages = [
@@ -166,18 +172,22 @@ const App = () => {
                         </button>
                       </div>
                     )}
-                    message={(props) => (
-                      <div
-                        className={props.message.author.id === 1 ? "user" : "bot"}
-                        style={{ textAlign: props.message.author.id === 1 ? "right" : "left" }}
-                      >
-                        {props.message.type === "text" ? (
-                          <div>{props.message.text}</div>
-                        ) : (
-                          <AttachmentTemplate item={props.message.attachments[0]} />
-                        )}
-                      </div>
-                    )}
+                    message={(props) => {
+                      const { item } = props;
+                      const sender = item.author.isUser ? user : bot;
+                      return (
+                        <div
+                          className={sender.className}
+                          style={{ textAlign: sender.isUser ? "right" : "left" }}
+                        >
+                          {item.type === "text" ? (
+                            <div>{item.text}</div>
+                          ) : (
+                            <AttachmentTemplate item={item} />  
+                          )}
+                        </div>
+                      );
+                    }}
                   />
                 }
               />
@@ -209,6 +219,5 @@ const App = () => {
       )}
     </div>
   );
-};
-
+      };  
 export default App;

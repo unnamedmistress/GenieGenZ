@@ -5,8 +5,7 @@ function LoginForm(props) {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
-    console.log("Username: ", username, "Password: ", password);
-
+    console.log(username  + password )
     event.preventDefault();
     const url = "/api/login";
     console.log("Sending POST request to:", url);
@@ -19,18 +18,20 @@ function LoginForm(props) {
         },
         body: JSON.stringify({ username, password }),
       });
+     console.log(response);
       console.log("response.ok : " + response.ok)
       if (response.ok) {
         props.onLogin();
       } else {
+        console.log(response.error + " " + response.status)
         throw new Error("HTTP error " + response.status);
       }
     } catch (error) {
-      console.error("client side: " + error);
+      console.error("client side: " + error + " " + error.message);
       alert("Error logging in " + error);
     }
   };
-
+console.log(password + username.password + " " + password.password)
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
