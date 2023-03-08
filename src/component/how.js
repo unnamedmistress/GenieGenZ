@@ -4,6 +4,17 @@ const How = () => {
   return (
     <div>
       <h2>Frequently Asked Questions</h2>
+      <img src="../public/geniegif.gif" alt="Tutor GIF" />
+      <iframe
+  width="560"
+  height="315"
+  src="https://youtu.be/_ukgk6hkJGg"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
+
       <h3>1. How do I start a conversation with Tutor Genie?</h3>
       <p>
         To start a conversation with Tutor Genie, simply type your message in the
