@@ -1,6 +1,8 @@
 import { Configuration, OpenAIApi } from 'openai';
 import axios from "axios";
+import LoginForm from './component/LoginForm.js';
 const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+
 
 const openai = axios.create({
   baseURL: "https://api.openai.com/v1",
@@ -26,10 +28,12 @@ const generateText = async (text) => {
     const isFlagged = await moderateText(text);
     if (!isFlagged) {
       const completion = await openai.post("/chat/completions", {
-        model: "gpt-3.5-turbo",
+        model: "gpt-3.5-turbo-0301",
         messages: [{ role: "user", content: process.env.REACT_APP_SECRET + text }],
         n: 1,
         stop: null,
+        max_tokens: 250,
+        temperature: 0.5,
       });
       console.log(completion.data);
       console.log("line 35" + completion.data.choices[0].message)

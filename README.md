@@ -7,7 +7,9 @@ Text message like framework. Uses Kendo-React.
 # Child Safety Features
 DOUBLE LAYER OF PROTECTION for child users. User enter text is sent though a moderation engine to check for any sexual, violent or other inappropriate text. Only if it passes that check will it get a response from the AI. A second level of validation is added to the AI's response which is also checked for safety content.
 
-![Alt text](./public/Screenshot.png)
+![Alt text](./public/Screenshot2.png)
+![Loading Animation](./public/geniegif.gif)
+
 
 # Play with Me
 

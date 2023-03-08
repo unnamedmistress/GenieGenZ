@@ -96,7 +96,7 @@ padding: 2%;
   box-sizing: border-box;
   max-height: 450px;
  overflow-y: scroll;
-  padding: 1%;
+  padding: 2%;
   position: relative;
 }
 .k-widget.k-chat{
@@ -107,7 +107,7 @@ padding: 2%;
   width: 100%;
   max-width: 98%;
   box-sizing: border-box;
-  padding: 1%;
+  padding: 2%;
   position: relative;  
     
 }
@@ -127,6 +127,7 @@ padding: 2%;
 }
 .spinner {
   border-radius: 50%;
+  font-size: 14px;
   height: 40px;
   width: 40px;
   position: absolute;
