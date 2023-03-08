@@ -21,7 +21,6 @@ const Nav = ({ isLoggedIn, handleLogout, handleLogin, children }) => {
       ) : (
         <LoginButton handleLogin={handleLogin} />
       )}
-      {children}
     </ul>
   );
 };

@@ -148,13 +148,13 @@ const App = () => {
           )}
         </>
       )}
-      <div ref={messagesEndRef} />   {/* anchor for scrollToBottom */}
+     
     </Router>
     {isLoading && (
       <div id="typing" className="spinner">
         🤖.{".".repeat(dots)}
       </div>
-    )}
+    )}  <div ref={messagesEndRef} />  
   </div>
 );
     }

@@ -1,27 +1,16 @@
-import React from "react";
+import React from 'react';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const How = () => {
   return (
-    <div>
+    <div className="container">
+      <h1>How to Use Tutor Genie</h1>
       <h2>Frequently Asked Questions</h2>
-      <img src="../public/geniegif.gif" alt="Tutor GIF" />
-      <iframe
-  width="560"
-  height="315"
-  src="https://youtu.be/_ukgk6hkJGg"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen
-></iframe>
-
       <h3>1. How do I start a conversation with Tutor Genie?</h3>
       <p>
         To start a conversation with Tutor Genie, simply type your message in the
         message input box and press enter or click the send button. Tutor Genie will
-        respond to your message automatically using the OpenAI language model. 
-        NOTE: the Turbo version is not available until April and it may take up to 10 
-        seconds for a response to populate.
+        respond to your message automatically using the OpenAI language model.
       </p>
       <h3>2. How do I know this is safe for my child to use?</h3>
       <p>
@@ -49,7 +38,7 @@ const How = () => {
         movies, TV shows, books, and more. It can also answer questions about the weather,
         the stock market, and the latest news. It can even answer questions about itself.
       </p>
-      <h3>5. Is this cheating?</h3>
+      <h3>6. Is this cheating?</h3>
       <p>
        You should always check your school policy to see if using Tutor Genie is allowed.
          Tutor Genie is not intended to be used as a substitute for studying. It is intended
