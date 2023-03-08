@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import LoginForm from './LoginForm.js';
-import SignupForm from './SignupForm.js';
 import How from './How.js';
+import SignupForm from './SignupForm.js';
 
 const AppRouter = () => {
   const history = createBrowserHistory();
@@ -13,8 +13,8 @@ const AppRouter = () => {
     <BrowserRouter history={history}>
       <Routes>
         <Route path="/" element={<LoginForm onSignupClick={() => history.push('/signup')} />} />
-        <Route path="/signup" element={<SignupForm />} />
         <Route path="/how" element={<How />} />
+        <Route path="/signup" element={<SignupForm />} />
       </Routes>
     </BrowserRouter>
   );
