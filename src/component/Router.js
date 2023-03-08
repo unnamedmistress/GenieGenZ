@@ -4,6 +4,7 @@ import { createBrowserHistory } from 'history';
 
 import LoginForm from './LoginForm.js';
 import SignupForm from './SignupForm.js';
+import How from './How.js';
 
 const AppRouter = () => {
   const history = createBrowserHistory();
@@ -13,6 +14,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<LoginForm onSignupClick={() => history.push('/signup')} />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/how" element={<How />} />
       </Routes>
     </BrowserRouter>
   );
